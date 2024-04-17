@@ -14,15 +14,11 @@ namespace Application.Dtos
 
         public ContactDetailsDto ContactDetails { get; set; }
 
-        public string FirstName { get; set; }
+        public PersonDto Person { get; set; }
 
         public ProfessionDto Profession { get; set; }
 
         public ICollection<ServiceDto> Services { get; set; } = new HashSet<ServiceDto>();
-
-        public string Surname { get; set; }
-
-        public string Title { get; set; }
 
         public ICollection<UnavailabilityDto> Unavailabilities { get; set; } = new HashSet<UnavailabilityDto>();
 
@@ -33,13 +29,10 @@ namespace Application.Dtos
         public static implicit operator PractitionerDto(Practitioner practitioner) => new()
         {
             Availabilities = practitioner.Availabilities.Select<Availability, AvailabilityDto>(a => a).ToHashSet(),
-            ContactDetails = practitioner.ContactDetails,
-            FirstName = practitioner.FirstName,
             PractitionerID = practitioner.ID,
+            Person = practitioner.Person,
             Profession = practitioner.Profession,
             Services = practitioner.Services.Select<PractitionerService, ServiceDto>(s => s.Service).ToHashSet(),
-            Surname = practitioner.Surname,
-            Title = practitioner.Title,
             Unavailabilities = practitioner.Unavailabilities.Select<Unavailability, UnavailabilityDto>(u => u).ToHashSet(),
         };
 

@@ -30,6 +30,7 @@ namespace Application.UseCases.Practices.CreatePractice
                 Address = inputPort.Address,
                 ContactDetails = (ContactDetails)inputPort.ContactDetails,
                 Description = inputPort.Description,
+                IsActive = true,
                 Name = inputPort.Name,
             };
 

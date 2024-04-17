@@ -29,14 +29,11 @@ namespace Application.UseCases.Practitioners.CreatePractitioner
             var _Services = this._persistenceContext.GetEntities<Service>().Where(s => inputPort.ServiceIDs.Contains(s.ID)).ToList();
             var _Practitioner = new Practitioner()
             {
-                ContactDetails = (ContactDetails)inputPort.ContactDetails,
-                FirstName = inputPort.FirstName,
+                IsActive = true,
+                Person = inputPort.Person,
                 Profession = _Profession,
-                Surname = inputPort.Surname,
-                Title = inputPort.Title,
             };
-            foreach (var _Service in _Services)
-                _Practitioner.Services.Add(new() { Practitioner = _Practitioner, Service = _Service });
+            _Practitioner.Services = _Services.Select(s => new PractitionerService() { Practitioner = _Practitioner, Service = s }).ToHashSet();
 
             this._persistenceContext.Add(_Practitioner);
 

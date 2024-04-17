@@ -8,6 +8,7 @@ namespace Application.UseCases.Services.CreateService
 
     public class CreateServiceAuthorisationEnforcer : IAuthorisationEnforcer<CreateServiceInputPort, ICreateServiceOutputPort>
     {
+
         #region Fields
 
         private readonly IAuthorisationClaimsProvider _authorisationClaimsProvider;

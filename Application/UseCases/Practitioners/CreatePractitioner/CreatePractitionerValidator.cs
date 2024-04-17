@@ -13,7 +13,7 @@ namespace Application.UseCases.Practitioners.CreatePractitioner
 
         #region Fields
 
-        private readonly IDtoValidator<ContactDetailsDto> _contactDetailsValidator;
+        private readonly IDtoValidator<PersonDto> _personValidator;
         private readonly IPersistenceContext _persistenceContext;
 
         #endregion
@@ -22,7 +22,7 @@ namespace Application.UseCases.Practitioners.CreatePractitioner
 
         public CreatePractitionerValidator(IPersistenceContext persistenceContext)
         {
-            this._contactDetailsValidator = new ContactDetailsValidator();
+            this._personValidator = new PersonValidator(new ContactDetailsValidator());
             this._persistenceContext = persistenceContext;
         }
 
@@ -60,9 +60,9 @@ namespace Application.UseCases.Practitioners.CreatePractitioner
             }
 
             if (!_HasErrors && this._persistenceContext.GetEntities<Practitioner>()
-                .Any(p => p.FirstName.Equals(inputPort.FirstName, StringComparison.OrdinalIgnoreCase)
-                    && p.Surname.Equals(inputPort.Surname, StringComparison.OrdinalIgnoreCase)
-                    && p.Title.Equals(inputPort.Title, StringComparison.OrdinalIgnoreCase)))
+                .Any(p => p.Person.FirstName.Equals(inputPort.Person.FirstName, StringComparison.OrdinalIgnoreCase)
+                    && p.Person.Surname.Equals(inputPort.Person.Surname, StringComparison.OrdinalIgnoreCase)
+                    && p.Person.Title.Equals(inputPort.Person.Title, StringComparison.OrdinalIgnoreCase)))
                 return await outputPort.PresentPractitionerNameNotUniqueAsync(cancellationToken);
 
             return new ContinuationResult(_HasErrors ? ContinuationResultBehavior.Bail : ContinuationResultBehavior.Continue);
@@ -70,13 +70,7 @@ namespace Application.UseCases.Practitioners.CreatePractitioner
 
         private bool ValidateInputPort(CreatePractitionerInputPort inputPort, out ICollection<ValidationError> errors)
         {
-            var _IsValid = this._contactDetailsValidator.Validate(inputPort.ContactDetails, out errors);
-
-            if (string.IsNullOrWhiteSpace(inputPort.FirstName))
-            {
-                errors.Add(this.PropertyIsRequired(nameof(inputPort.FirstName)));
-                _IsValid = false;
-            }
+            var _IsValid = this._personValidator.Validate(inputPort.Person, out errors);
 
             if (inputPort.ProfessionID == Guid.Empty)
             {
@@ -87,18 +81,6 @@ namespace Application.UseCases.Practitioners.CreatePractitioner
             if (!(inputPort.ServiceIDs?.Any() ?? true))
             {
                 errors.Add(this.PropertyIsEmpty(nameof(inputPort.ServiceIDs)));
-                _IsValid = false;
-            }
-
-            if (string.IsNullOrWhiteSpace(inputPort.Surname))
-            {
-                errors.Add(this.PropertyIsRequired(nameof(inputPort.Surname)));
-                _IsValid = false;
-            }
-
-            if (string.IsNullOrWhiteSpace(inputPort.Title))
-            {
-                errors.Add(this.PropertyIsRequired(nameof(inputPort.Title)));
                 _IsValid = false;
             }
             return _IsValid;

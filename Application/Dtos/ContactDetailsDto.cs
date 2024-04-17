@@ -28,7 +28,7 @@ namespace Application.Dtos
             Phone = contactDetails.Phone
         };
 
-        public static explicit operator ContactDetails(ContactDetailsDto contactDetails) => new()
+        public static implicit operator ContactDetails(ContactDetailsDto contactDetails) => new()
         {
             Email = contactDetails.Email,
             Fax = contactDetails.Fax,

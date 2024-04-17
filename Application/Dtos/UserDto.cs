@@ -11,17 +11,11 @@ namespace Application.Dtos
 
         public Guid UserID { get; set; }
 
-        public ContactDetailsDto ContactDetails { get; set; }
-
-        public string FirstName { get; set; }
-
         public PractitionerDto? Practitioner { get; set; }
 
+        public PersonDto Person { get; set; }
+
         public UserRole Role { get; set; }
-
-        public string Surname { get; set; }
-
-        public string Title { get; set; }
 
         public string Username { get; set; }
 
@@ -31,12 +25,9 @@ namespace Application.Dtos
 
         public static implicit operator UserDto(User user) => new()
         {
-            ContactDetails = user.ContactDetails,
-            FirstName = user.FirstName,
             Practitioner = user.Practitioner == null ? null : user.Practitioner,
+            Person = user.Person,
             Role = user.Role,
-            Surname = user.Surname,
-            Title = user.Title,
             UserID = user.ID,
             Username = user.Username
         };

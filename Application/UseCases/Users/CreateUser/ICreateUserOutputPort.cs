@@ -18,8 +18,6 @@ namespace Application.UseCases.Users.CreateUser
 
         Task PresentPractitionerDoesNotExistAsync(Guid invalidID, CancellationToken cancellationToken);
 
-        Task PresentServicesDoNotExistAsync(IEnumerable<Guid> invalidIDs, CancellationToken cancellationToken);
-
         Task PresentUnauthorisedAsync(string message, CancellationToken cancellationToken);
 
         #endregion

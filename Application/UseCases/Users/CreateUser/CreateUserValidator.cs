@@ -13,7 +13,7 @@ namespace Application.UseCases.Users.CreateUser
 
         #region Fields
 
-        private readonly IDtoValidator<ContactDetailsDto> _contactDetailsValidator;
+        private readonly IDtoValidator<PersonDto> _personValidator;
         private readonly IPersistenceContext _persistenceContext;
 
         #endregion
@@ -22,7 +22,7 @@ namespace Application.UseCases.Users.CreateUser
 
         public CreateUserValidator(IPersistenceContext persistenceContext)
         {
-            this._contactDetailsValidator = new ContactDetailsValidator();
+            this._personValidator = new PersonValidator(new ContactDetailsValidator());
             this._persistenceContext = persistenceContext;
         }
 
@@ -42,57 +42,29 @@ namespace Application.UseCases.Users.CreateUser
                 _HasErrors = true;
             }
 
-            if (!_HasErrors && this._persistenceContext.GetEntities<Practitioner>().SingleOrDefault(p => p.ID == inputPort.PractitionerID) == null)
+            if (!_HasErrors && inputPort.PractitionerID.HasValue && this._persistenceContext.GetEntities<Practitioner>().SingleOrDefault(p => p.ID == inputPort.PractitionerID) == null)
             {
-                await outputPort.PresentPractitionerDoesNotExistAsync(inputPort.PractitionerID, cancellationToken);
+                await outputPort.PresentPractitionerDoesNotExistAsync(inputPort.PractitionerID.Value, cancellationToken);
                 _HasErrors = true;
             }
 
-            if (!_HasErrors)
+            if (!_HasErrors && this._persistenceContext.GetEntities<User>().Any(u => u.Username.Equals(inputPort.Username, StringComparison.OrdinalIgnoreCase)))
             {
-                var _Services = this._persistenceContext.GetEntities<Service>().Where(s => inputPort.ServiceIDs.Contains(s.ID)).ToList();
-                var _InvalidIDs = inputPort.ServiceIDs.Except(_Services.Select(s => s.ID)).ToList();
-                if (_InvalidIDs.Any())
-                {
-                    await outputPort.PresentServicesDoNotExistAsync(_InvalidIDs, cancellationToken);
-                    _HasErrors = true;
-                }
+                _HasErrors = true;
+                await outputPort.PresentUsernameNotUniqueAsync(cancellationToken);
             }
-
-            if (!_HasErrors && this._persistenceContext.GetEntities<User>()
-                .Any(p => p.FirstName.Equals(inputPort.FirstName, StringComparison.OrdinalIgnoreCase)
-                    && p.Surname.Equals(inputPort.Surname, StringComparison.OrdinalIgnoreCase)
-                    && p.Title.Equals(inputPort.Title, StringComparison.OrdinalIgnoreCase)))
-                return await outputPort.PresentUserNameNotUniqueAsync(cancellationToken);
 
             return new ContinuationResult(_HasErrors ? ContinuationResultBehavior.Bail : ContinuationResultBehavior.Continue);
         }
 
         private bool ValidateInputPort(CreateUserInputPort inputPort, out ICollection<ValidationError> errors)
         {
-            var _IsValid = this._contactDetailsValidator.Validate(inputPort.ContactDetails, out errors);
-
-            if (string.IsNullOrWhiteSpace(inputPort.FirstName))
-            {
-                errors.Add(this.PropertyIsRequired(nameof(inputPort.FirstName)));
-                _IsValid = false;
-            }
+            errors = new List<ValidationError>();
+            var _IsValid = inputPort.PractitionerID.HasValue || this._personValidator.Validate(inputPort.Person, out errors);
 
             if (inputPort.PractitionerID == Guid.Empty)
             {
                 errors.Add(this.PropertyIsInvalid(nameof(inputPort.PractitionerID)));
-                _IsValid = false;
-            }
-
-            if (string.IsNullOrWhiteSpace(inputPort.Surname))
-            {
-                errors.Add(this.PropertyIsRequired(nameof(inputPort.Surname)));
-                _IsValid = false;
-            }
-
-            if (string.IsNullOrWhiteSpace(inputPort.Title))
-            {
-                errors.Add(this.PropertyIsRequired(nameof(inputPort.Title)));
                 _IsValid = false;
             }
 
