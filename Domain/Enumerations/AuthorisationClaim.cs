@@ -13,6 +13,8 @@
         CanCreateAdmins,
         CanCreatePractitionerUsers,
         CanCreateSuperAdmins,
+        CanUpdateOtherUsers,
+        CanUpdateUserRoles,
     }
 
 
