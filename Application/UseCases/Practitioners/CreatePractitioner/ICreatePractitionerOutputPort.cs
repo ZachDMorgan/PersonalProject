@@ -12,7 +12,7 @@ namespace Application.UseCases.Practitioners.CreatePractitioner
 
         Task PresentInvalidInputAsync(ICollection<ValidationError> validationErrors, CancellationToken cancellationToken);
 
-        Task PresentPractitionerAsync(PractitionerDto practice, CancellationToken cancellationToken);
+        Task PresentPractitionerAsync(PractitionerDto practitioner, CancellationToken cancellationToken);
 
         Task<ContinuationResult> PresentPractitionerNameNotUniqueAsync(CancellationToken cancellationToken);
 

@@ -12,7 +12,7 @@ namespace Application.UseCases.Professions.CreateProfession
 
         Task PresentInvalidInputAsync(ICollection<ValidationError> validationErrors, CancellationToken cancellationToken);
 
-        Task PresentProfessionAsync(ProfessionDto practice, CancellationToken cancellationToken);
+        Task PresentProfessionAsync(ProfessionDto profession, CancellationToken cancellationToken);
 
         Task PresentProfessionNameNotUniqueAsync(CancellationToken cancellationToken);
 

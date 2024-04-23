@@ -12,7 +12,7 @@ namespace Application.UseCases.Users.CreateUser
 
         Task PresentInvalidInputAsync(ICollection<ValidationError> validationErrors, CancellationToken cancellationToken);
 
-        Task PresentUserAsync(UserDto practice, CancellationToken cancellationToken);
+        Task PresentUserAsync(UserDto user, CancellationToken cancellationToken);
 
         Task PresentUsernameNotUniqueAsync(CancellationToken cancellationToken);
 

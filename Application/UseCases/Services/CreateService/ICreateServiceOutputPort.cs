@@ -12,7 +12,7 @@ namespace Application.UseCases.Services.CreateService
 
         Task PresentInvalidInputAsync(ICollection<ValidationError> validationErrors, CancellationToken cancellationToken);
 
-        Task PresentServiceAsync(ServiceDto practice, CancellationToken cancellationToken);
+        Task PresentServiceAsync(ServiceDto service, CancellationToken cancellationToken);
 
         Task PresentServiceNameNotUniqueAsync(CancellationToken cancellationToken);
 
