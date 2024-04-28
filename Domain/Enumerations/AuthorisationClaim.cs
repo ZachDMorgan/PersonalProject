@@ -3,18 +3,30 @@
 
     public enum AuthorisationClaim
     {
-        Unauthorised, //cheat
+        //Cheat
+        Unauthorised,
+
+        //Practices
         CanAlterPractices,
         CanCreatePractices,
+
+        //Practitioners
         CanCreatePractitioners,
+
+        //Professions
         CanCreateProfessions,
+
+        //Services
+        CanAlterServices,
         CanCreateServices,
-        CanCreateUsers,
+
+        //Users
+        CanAlterOtherUsers,
+        CanAlterUserRoles,
         CanCreateAdmins,
         CanCreatePractitionerUsers,
         CanCreateSuperAdmins,
-        CanUpdateOtherUsers,
-        CanUpdateUserRoles,
+        CanCreateUsers,
     }
 
 

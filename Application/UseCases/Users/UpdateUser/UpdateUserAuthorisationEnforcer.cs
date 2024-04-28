@@ -40,15 +40,15 @@ namespace Application.UseCases.Users.UpdateUser
                 await outputPort.PresentUnauthorisedAsync("Passwords can only be changed from User's account.", cancellationToken);
                 return new ContinuationResult(ContinuationResultBehavior.Bail);
             }
-            if (inputPort.Person != null && _CurrentUser.ID != inputPort.UserID && !await this._authorisationClaimsProvider.DoesUserHaveClaimAsync(AuthorisationClaim.CanUpdateOtherUsers))
+            if (inputPort.Person != null && _CurrentUser.ID != inputPort.UserID && !await this._authorisationClaimsProvider.DoesUserHaveClaimAsync(AuthorisationClaim.CanAlterOtherUsers))
             {
                 await outputPort.PresentUnauthorisedAsync("Passwords can only be changed from User's account or by a Super Admin.", cancellationToken);
                 return new ContinuationResult(ContinuationResultBehavior.Bail);
             }
 
-            if (inputPort.Role.HasBeenSet && !await this._authorisationClaimsProvider.DoesUserHaveClaimAsync(AuthorisationClaim.CanUpdateUserRoles))
+            if (inputPort.Role.HasBeenSet && !await this._authorisationClaimsProvider.DoesUserHaveClaimAsync(AuthorisationClaim.CanAlterUserRoles))
             {
-                await outputPort.PresentUnauthorisedAsync(GenericErrorMessageProvider.GetUnauthorisedMessage(AuthorisationClaim.CanUpdateUserRoles), cancellationToken);
+                await outputPort.PresentUnauthorisedAsync(GenericErrorMessageProvider.GetUnauthorisedMessage(AuthorisationClaim.CanAlterUserRoles), cancellationToken);
                 return new ContinuationResult(ContinuationResultBehavior.Bail);
 
             }

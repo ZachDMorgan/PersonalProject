@@ -9,6 +9,8 @@
 
         IQueryable<TEntity> GetEntities<TEntity>();
 
+        void Remove<TEntity>(TEntity entity);
+
         Task<int> SaveChangesAsync();
 
         #endregion

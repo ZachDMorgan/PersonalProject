@@ -36,10 +36,10 @@ namespace Application.UseCases.Users.UpdateUser
                 .SingleOrDefault()!.User;
 
             if (inputPort.Password.HasBeenSet)
+                _User.Password = inputPort.Password.Value;
 
-                if (inputPort.Person != null)
-                    inputPort.Person.ApplyChanges(_User.Person);
-            _User.Password = inputPort.Password.Value;
+            if (inputPort.Person != null)
+                inputPort.Person.ApplyChanges(_User.Person);
 
             if (inputPort.Role.HasBeenSet)
                 _User.Role = inputPort.Role.Value;
