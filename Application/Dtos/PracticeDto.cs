@@ -12,6 +12,8 @@ namespace Application.Dtos
 
         public string Address { get; set; }
 
+        public ICollection<AppointmentDto> Appointments { get; set; } = new HashSet<AppointmentDto>();
+
         public ICollection<AvailabilityDto> Availabilities { get; set; } = new HashSet<AvailabilityDto>();
 
         public ContactDetailsDto ContactDetails { get; set; }
@@ -29,6 +31,7 @@ namespace Application.Dtos
         public static implicit operator PracticeDto(Practice practice) => new()
         {
             Address = practice.Address,
+            Appointments = practice.Appointments.Select<Appointment, AppointmentDto>(a => a).ToHashSet(),
             Availabilities = practice.Availabilities.Select<Availability, AvailabilityDto>(a => a).ToHashSet(),
             ContactDetails = practice.ContactDetails,
             Description = practice.Description,
