@@ -14,8 +14,8 @@ namespace Application.UseCases.Users.UpdateUser
 
         #region Fields
 
-        private readonly IDtoValidator<UpdatePersonDto> _personValidator;
         private readonly IPersistenceContext _persistenceContext;
+        private readonly IDtoValidator<UpdatePersonDto> _personValidator;
 
         #endregion
 
@@ -23,8 +23,8 @@ namespace Application.UseCases.Users.UpdateUser
 
         public UpdateUserValidator(IPersistenceContext persistenceContext)
         {
-            this._personValidator = new UpdatePersonValidator(new UpdateContactDetailsValidator());
             this._persistenceContext = persistenceContext;
+            this._personValidator = new UpdatePersonValidator(new UpdateContactDetailsValidator());
         }
 
         #endregion

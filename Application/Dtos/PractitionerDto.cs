@@ -10,6 +10,8 @@ namespace Application.Dtos
 
         public Guid PractitionerID { get; set; }
 
+        public ICollection<AppointmentDto> Appointments { get; set; } = new HashSet<AppointmentDto>();
+
         public ICollection<AvailabilityDto> Availabilities { get; set; } = new HashSet<AvailabilityDto>();
 
         public ContactDetailsDto ContactDetails { get; set; }
@@ -28,6 +30,7 @@ namespace Application.Dtos
 
         public static implicit operator PractitionerDto(Practitioner practitioner) => new()
         {
+            Appointments = practitioner.Appointments.Select<Appointment, AppointmentDto>(a => a).ToHashSet(),
             Availabilities = practitioner.Availabilities.Select<Availability, AvailabilityDto>(a => a).ToHashSet(),
             PractitionerID = practitioner.ID,
             Person = practitioner.Person,

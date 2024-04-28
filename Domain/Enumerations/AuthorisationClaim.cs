@@ -11,6 +11,7 @@
         CanCreatePractices,
 
         //Practitioners
+        CanAlterPractitioners,
         CanCreatePractitioners,
 
         //Professions
