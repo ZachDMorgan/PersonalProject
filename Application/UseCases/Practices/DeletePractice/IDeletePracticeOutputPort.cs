@@ -9,6 +9,8 @@ namespace Application.UseCases.Practices.DeletePractice
 
         #region Methods
 
+        Task<bool> PresentConfirmationRequiredAsync(CancellationToken cancellationToken);
+
         Task PresentDeletedPracticeAsync(PracticeDto Practice, CancellationToken cancellationToken);
 
         Task PresentPracticeNotFoundAsync(Guid PracticeID, CancellationToken cancellationToken);

@@ -25,9 +25,12 @@ namespace Application.UseCases.Practices.DeletePractice
 
         async Task<IContinuationResult> IInteractor<DeletePracticeInputPort, IDeletePracticeOutputPort>.InteractAsync(DeletePracticeInputPort inputPort, IDeletePracticeOutputPort outputPort, CancellationToken cancellationToken)
         {
-            var _Practice = this._persistenceContext.GetEntities<Practice>().Single(s => s.ID == inputPort.PracticeID);
-            this._persistenceContext.Remove(_Practice);
-            await outputPort.PresentDeletedPracticeAsync(_Practice, cancellationToken);
+            if (await outputPort.PresentConfirmationRequiredAsync(cancellationToken))
+            {
+                var _Practice = this._persistenceContext.GetEntities<Practice>().Single(s => s.ID == inputPort.PracticeID);
+                this._persistenceContext.Remove(_Practice);
+                await outputPort.PresentDeletedPracticeAsync(_Practice, cancellationToken);
+            }
             return new ContinuationResult();
         }
 
