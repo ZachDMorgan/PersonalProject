@@ -1,9 +1,8 @@
 ﻿using Application.Services.Persistence;
-using Application.UseCases.Professions.CreateProfession;
 using CleanArchitecture;
 using Domain.Entities;
 
-namespace Application.UseCases.Professions.CreateProfessions
+namespace Application.UseCases.Professions.CreateProfession
 {
 
     public class CreateProfessionInteractor : IInteractor<CreateProfessionInputPort, ICreateProfessionOutputPort>

@@ -28,9 +28,9 @@ namespace Application.UseCases.Professions.CreateProfession
             ICreateProfessionOutputPort outputPort,
             CancellationToken cancellationToken)
         {
-            if (await this._authorisationClaimsProvider.DoesUserHaveClaimAsync(AuthorisationClaim.CanCreateProfessions))
+            if (await this._authorisationClaimsProvider.DoesUserHaveClaimAsync(AuthorisationClaim.CanCreateProfession))
                 return new ContinuationResult();
-            await outputPort.PresentUnauthorisedAsync(GenericErrorMessageProvider.GetUnauthorisedMessage(AuthorisationClaim.CanCreateProfessions), cancellationToken);
+            await outputPort.PresentUnauthorisedAsync(GenericErrorMessageProvider.GetUnauthorisedMessage(AuthorisationClaim.CanCreateProfession), cancellationToken);
             return new ContinuationResult(ContinuationResultBehavior.Bail);
         }
 
