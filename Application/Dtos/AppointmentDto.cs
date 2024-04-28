@@ -11,7 +11,7 @@ namespace Application.Dtos
 
         public Guid AppointmentID { get; set; }
 
-        public int Duration { get; set; }
+        public int? DurationOverride { get; set; }
 
         public PracticeDto Practice { get; set; }
 
@@ -32,7 +32,7 @@ namespace Application.Dtos
         public static implicit operator AppointmentDto(Appointment appointment) => new()
         {
             AppointmentID = appointment.ID,
-            Duration = appointment.Duration,
+            DurationOverride = appointment.DurationOverride,
             Practice = appointment.Practice,
             Practitioner = appointment.Practitioner,
             Service = appointment.Service,

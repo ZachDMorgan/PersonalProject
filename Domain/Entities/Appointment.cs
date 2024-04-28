@@ -10,7 +10,7 @@ namespace Domain.Entities
 
         public Guid ID { get; set; }
 
-        public int Duration { get; set; }
+        public int? DurationOverride { get; set; }
 
         public Practice Practice { get; set; }
 
